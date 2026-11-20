@@ -19,6 +19,7 @@ public static class Program
             {
                 "init" => Init(args.Skip(1).ToArray()),
                 "validate" => Validate(args.Skip(1).ToArray()),
+                "run" => Runner.Run(args.Skip(1).ToArray()),
                 "--help" or "-h" or "help" => Help(),
                 _ => UnknownCommand(args[0]),
             };
@@ -60,7 +61,15 @@ public static class Program
               apiforge validate <collection.json>
                   Check a collection file for schema and validation errors.
 
-            Exit codes: 0 = success, 2 = usage/run error.
+              apiforge run <collection.json> [options]
+                  Execute every request in order and report assertion results.
+                  Options:
+                    --env <name>        Use a named environment from the collection.
+                    --var <name>=<value>  Override or add a variable (repeatable).
+                    --json <file>       Also write a machine-readable JSON report.
+                    --timeout <seconds> Per-request timeout (default 30).
+
+            Exit codes: 0 = all assertions passed, 1 = assertion failures, 2 = usage/run error.
             """);
     }
 
